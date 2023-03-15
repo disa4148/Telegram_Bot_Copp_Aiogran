@@ -18,6 +18,7 @@ class UserState(StatesGroup):
     number = State()
     age = State()
     category = State()
+    user_status = State()
 
 @dp.message_handler(commands=['reg'])
 async def user_register(message: types.Message):
@@ -70,7 +71,7 @@ async def get_category(message: types.Message, state: FSMContext):
     pattern = re.match(r'^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$', message.text)
 
     if (bool(pattern)) == True:
-        await state.update_data(number=message.text)
+        await state.update_data(number=message.text) #Запись значения в number
         keyboard_cat = types.InlineKeyboardMarkup(row_width=1)
         categories = {
             'Студенты': '1',
@@ -102,7 +103,7 @@ async def process_category(callback_query: types.CallbackQuery, state: FSMContex
         '7': 'Все'
     }
 
-    await state.update_data(category=categories[callback_query.data])
+    await state.update_data(category=categories[callback_query.data]) #Запись значения в category
     await callback_query.answer(f"Вы выбрали целевую аудиторию: {category}")
     await UserState.age.set()
     # вызов следующего шага после выбора категории
@@ -110,7 +111,11 @@ async def process_category(callback_query: types.CallbackQuery, state: FSMContex
 
 @dp.message_handler(state=UserState.age)
 async def get_age(message: types.Message, state: FSMContext):
-    await state.update_data(age=message.text) #Запись значения в email
+    builder = types.InlineKeyboardMarkup(inline_keyboard=True, row_width=2)
+    builder.add(types.InlineKeyboardButton(text="Да ✅", callback_data='reg_confirm'))
+    builder.add(types.InlineKeyboardButton(text="Нет ❌", callback_data='reg_deviation'))
+
+    await state.update_data(age=message.text) #Запись значения в age
     data = await state.get_data()
     await message.answer(f"Проверьте, корректно ли заполнены поля?  💬\n\n"
                          f"Имя: <b>{data['name']}</b>\n"
@@ -119,12 +124,22 @@ async def get_age(message: types.Message, state: FSMContext):
                          f"Номер телефона: <b>{data['number']}</b>\n"
                          f"Возраст: <b>{data['age']}</b>\n"
                          f"Категория: <b>{data['category']}</b>",
-                         parse_mode='html'
+                         parse_mode='html',
+                         reply_markup=builder
                          )
     await state.finish()
 
-
-
+"""""
+@dp.callback_query(filters.Text(startswith="reg_"))
+async def callbacks_for_registration(callback: types.callback_query, state:FSMContext):
+    action = callback.data.split("_")[1]
+    data = await state.get_data()
+    if action == "confirm":
+        await callback.message.edit_text(
+            'Все успешно заполнено 👏 \n\n'
+            'Вы можете ознакомиться с курсами с помощью команды <b> /course </b>',
+            parse_mode='html')
+"""""
 # Запуск процесса поллинга новых апдейтов
 async def main():
     await dp.start_polling(bot)
