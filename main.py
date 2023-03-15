@@ -2,8 +2,7 @@ import bot
 import asyncio
 import re
 import logging
-
-import config
+import navigation
 
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
@@ -27,69 +26,103 @@ async def user_register(message: types.Message):
 
 @dp.message_handler(state=UserState.name)
 async def get_username(message: types.Message, state: FSMContext):
-    await state.update_data(name=message.text) #Запись значения в surname
-    await message.answer("Введите вашу фамилию.")
-    #await UserState.next()
-    await UserState.surname.set()
+    if (len(message.text)) >= 2:
+        if (len(message.text)) < 20:
+            if any(char.isdigit() for char in message.text):
+                await message.answer("Имя не должно содержат цифр\n\n Попробуйте ввести ещё раз")
+            else:
+                await state.update_data(name=message.text)  # Запись значения в name
+                await message.answer("Введите вашу фамилию")
+                await UserState.surname.set()  # либо же UserState.adress.set()
+        else:
+            await message.answer("Имя слишком длинное\n\n Попробуйте ввести ещё раз")
+    else:
+        await message.answer("Имя слишком короткое\n\n Попробуйте ввести ещё раз")
 
 @dp.message_handler(state=UserState.surname)
 async def get_address(message: types.Message, state: FSMContext):
-    await state.update_data(surname=message.text)
-    await message.answer("Введите email адрес.")
-    await UserState.email.set()
+    if (len(message.text)) >= 2:
+        if (len(message.text)) < 60:
+            if any(char.isdigit() for char in message.text):
+                await message.answer('Фамилия не должна содержать цифр, попробуйте ввести ещё раз')
+            else:
+                await state.update_data(surname=message.text)
+                await message.answer("Введите адрес эл. почты")
+                await UserState.email.set()
+
+        else:
+            await message.answer("Фамилия слишком длинная\n\n Попробуйте ввести ещё раз")
+    else:
+        await message.answer('Фамилия слишком короткая, попробуйте ввести ещё раз')
 
 @dp.message_handler(state=UserState.email)
 async def get_result(message: types.Message, state: FSMContext):
-    await state.update_data(email=message.text) #Запись значения в email
-    await message.answer("Введите свой номер телефона:")
-    await UserState.category.set()
+    email_validate_pattern = r"^\S+@\S+\.\S+$"
+    if bool(re.match(email_validate_pattern, message.text)) == True:
+        await state.update_data(email=message.text)
+        await message.answer("Введите номер телефона:")
+        await UserState.category.set()
+    else:
+        await message.answer("Введите корректные данные")
+
 @dp.message_handler(state=UserState.category)
 async def get_category(message: types.Message, state: FSMContext):
-    await state.update_data(number=message.text) #Запись значения в email
-    keyboard_cat = types.InlineKeyboardMarkup(row_width=1)
-    categories = {
-        'Студенты': 'one',
-        'Учащиеся общеобразоветельных учреждений 6-7 классы': 'two',
-        'Учащиеся общеобразоветельных учреждений 8-11 классы': 'three',
-        'Предпенсионеры': 'four',
-        'Взрослое население/Работающий': 'five',
-        'Работодатель': 'six',
-        'Все': 'seven'
-    }
-    for category, data in categories.items():
-        keyboard_cat.add(types.InlineKeyboardButton(text=category, callback_data=data))
-    await message.answer("Выберите целевую аудиторию:", reply_markup=keyboard_cat)
+    pattern = re.match(r'^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$', message.text)
 
-@dp.callback_query_handler(lambda c: c.data in ['one', 'two', 'three', 'four', 'five', 'six', 'seven'], state=UserState.category)
+    if (bool(pattern)) == True:
+        await state.update_data(number=message.text)
+        keyboard_cat = types.InlineKeyboardMarkup(row_width=1)
+        categories = {
+            'Студенты': '1',
+            'Учащиеся общеобразоветельных учреждений 6-7 классы': '2',
+            'Учащиеся общеобразоветельных учреждений 8-11 классы': '3',
+            'Предпенсионеры': '4',
+            'Взрослое население/Работающий': '5',
+            'Работодатель': '6',
+            'Все': '7'
+        }
+        for category, data in categories.items():
+            keyboard_cat.add(types.InlineKeyboardButton(text=category, callback_data=data))
+        await message.answer("Выберите целевую аудиторию:", reply_markup=keyboard_cat)
+    else:
+        await message.answer("Введите корректные данные")
+    #await message.answer("Выберите целевую аудиторию гражданина:")
+
+
+@dp.callback_query_handler(lambda c: c.data in ['1', '2', '3', '4', '5', '6', '7'], state=UserState.category)
 async def process_category(callback_query: types.CallbackQuery, state: FSMContext):
     category = callback_query.data
     categories = {
-        'one': 'Студенты',
-        'two': 'Учащиеся общеобразоветельных учреждение 6-7 классы',
-        'three': 'Учащиеся общеобразоветельных учреждение 8-11 классы',
-        'four': 'Предпенсионеры',
-        'five': 'Взрослое население/Работающий',
-        'six': 'Работодатель',
-        'seven': 'Все'
+        '1': 'Студенты',
+        '2': 'Учащиеся общеобразоветельных учреждение 6-7 классы',
+        '3': 'Учащиеся общеобразоветельных учреждение 8-11 классы',
+        '4': 'Предпенсионеры',
+        '5': 'Взрослое население/Работающий',
+        '6': 'Работодатель',
+        '7': 'Все'
     }
+
     await state.update_data(category=categories[callback_query.data])
     await callback_query.answer(f"Вы выбрали целевую аудиторию: {category}")
     await UserState.age.set()
     # вызов следующего шага после выбора категории
     await callback_query.message.answer("Введите ваш возраст:")
+
 @dp.message_handler(state=UserState.age)
 async def get_age(message: types.Message, state: FSMContext):
     await state.update_data(age=message.text) #Запись значения в email
     data = await state.get_data()
-    await message.answer(f"Проверьте, корректно ли заполнены поля?\n\n"
-                         f"Имя: {data['name']}\n"
-                         f"Фамилия: {data['surname']}\n"
-                         f"Эл. почта: {data['email']}\n"
-                         f"Номер телефона: {data['number']}\n"
-                         f"Возраст: {data['age']}\n"
-                         f"Категория: {data['category']}"
+    await message.answer(f"Проверьте, корректно ли заполнены поля?  💬\n\n"
+                         f"Имя: <b>{data['name']}</b>\n"
+                         f"Фамилия: <b>{data['surname']}</b>\n"
+                         f"Эл. почта: <b>{data['email']}</b>\n"
+                         f"Номер телефона: <b>{data['number']}</b>\n"
+                         f"Возраст: <b>{data['age']}</b>\n"
+                         f"Категория: <b>{data['category']}</b>",
+                         parse_mode='html'
                          )
     await state.finish()
+
 
 
 # Запуск процесса поллинга новых апдейтов
