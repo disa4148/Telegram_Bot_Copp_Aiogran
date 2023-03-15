@@ -20,9 +20,7 @@ class UserState(StatesGroup):
     age = State()
     category = State()
 
-
-
-@dp.message_handler(commands=['reg']) #
+@dp.message_handler(commands=['reg'])
 async def user_register(message: types.Message):
     await message.answer("Введите ваше имя")
     await UserState.name.set()
@@ -40,22 +38,14 @@ async def get_address(message: types.Message, state: FSMContext):
     await message.answer("Введите email адрес.")
     await UserState.email.set()
 
-
 @dp.message_handler(state=UserState.email)
 async def get_result(message: types.Message, state: FSMContext):
     await state.update_data(email=message.text) #Запись значения в email
     await message.answer("Введите свой номер телефона:")
-    #await UserState.next()
-    await UserState.number.set()
-
-@dp.message_handler(state=UserState.number)
-async def get_result(message: types.Message, state: FSMContext):
-    await state.update_data(number=message.text) #Запись значения в email
-    await message.answer("Введите свой возраст")
     await UserState.category.set()
-
 @dp.message_handler(state=UserState.category)
-async def get_category(message: types.Message):
+async def get_category(message: types.Message, state: FSMContext):
+    await state.update_data(number=message.text) #Запись значения в email
     keyboard_cat = types.InlineKeyboardMarkup(row_width=1)
     categories = {
         'Студенты': 'one',
@@ -69,27 +59,14 @@ async def get_category(message: types.Message):
     for category, data in categories.items():
         keyboard_cat.add(types.InlineKeyboardButton(text=category, callback_data=data))
     await message.answer("Выберите целевую аудиторию:", reply_markup=keyboard_cat)
-
-
-
-@dp.callback_query_handler(filters.Text(startswith="cat_"))
-async def callback_reply(callback: types.CallbackQuery, state: FSMContext):
-    if callback:
-        categories = {
-            'one': 'Студенты',
-            'two': 'Учащиеся общеобразоветельных учреждение 6-7 классы',
-            'three': 'Учащиеся общеобразоветельных учреждение 8-11 классы',
-            'four': 'Предпенсионеры',
-            'five': 'Взрослое население/Работающий',
-            'six': 'Работодатель',
-            'seven': 'Все'
-        }
-        if callback in categories:
-            state.update_data(category=categories[callback])  # Запись значения в email
-            await UserState.age.set()
-
-
-
+@dp.callback_query_handler(lambda c: c.data in ['one', 'two', 'three', 'four', 'five', 'six', 'seven'], state=UserState.category)
+async def process_category(callback_query: types.CallbackQuery, state: FSMContext):
+    category = callback_query.data
+    await state.update_data(category=category)
+    await callback_query.answer(f"Вы выбрали целевую аудиторию: {category}")
+    await UserState.age.set()
+    # вызов следующего шага после выбора категории
+    await callback_query.message.answer("Введите ваш возраст:")
 @dp.message_handler(state=UserState.age)
 async def get_age(message: types.Message, state: FSMContext):
     await state.update_data(age=message.text) #Запись значения в email
