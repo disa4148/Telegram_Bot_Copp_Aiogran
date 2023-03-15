@@ -59,10 +59,20 @@ async def get_category(message: types.Message, state: FSMContext):
     for category, data in categories.items():
         keyboard_cat.add(types.InlineKeyboardButton(text=category, callback_data=data))
     await message.answer("Выберите целевую аудиторию:", reply_markup=keyboard_cat)
+
 @dp.callback_query_handler(lambda c: c.data in ['one', 'two', 'three', 'four', 'five', 'six', 'seven'], state=UserState.category)
 async def process_category(callback_query: types.CallbackQuery, state: FSMContext):
     category = callback_query.data
-    await state.update_data(category=category)
+    categories = {
+        'one': 'Студенты',
+        'two': 'Учащиеся общеобразоветельных учреждение 6-7 классы',
+        'three': 'Учащиеся общеобразоветельных учреждение 8-11 классы',
+        'four': 'Предпенсионеры',
+        'five': 'Взрослое население/Работающий',
+        'six': 'Работодатель',
+        'seven': 'Все'
+    }
+    await state.update_data(category=categories[callback_query.data])
     await callback_query.answer(f"Вы выбрали целевую аудиторию: {category}")
     await UserState.age.set()
     # вызов следующего шага после выбора категории
