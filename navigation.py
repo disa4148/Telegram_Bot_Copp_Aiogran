@@ -21,7 +21,6 @@ async def start_work(message: types.Message):
     "✅ Организацией и проведением деловых встреч и мероприятий")
     await get_menu(message)
 
-
 @dp.message_handler(commands=['menu']) # Менюшка
 async def get_menu(message: types.Message):
     menu = types.InlineKeyboardMarkup(inline_keyboard=True)
@@ -35,7 +34,7 @@ async def return_to_menu(message: types.Message): #Возврат
     await message.answer("Нажмите кнопку для возврата", reply_markup=back)
 """""
 
-@dp.callback_query_handler(filters.Text(startswith="menu_"))
+@dp.callback_query_handler(filters.Text(startswith="menu_")) #Обработка обратной связи кнопок меню
 async def go_to_courses(callback: types.CallbackQuery):
     action = callback.data.split("_")[1]
     if action == "course":

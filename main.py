@@ -1,9 +1,13 @@
 import bot
 import asyncio
 import re
+import xlsxwriter
 import logging
 import navigation
+import CreateExcelTable
+import EmailSender
 
+from datetime import datetime
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram import Bot, Dispatcher, types, filters
@@ -20,13 +24,13 @@ class UserState(StatesGroup):
     category = State()
     user_status = State()
 
-@dp.message_handler(commands=['reg'])
+@dp.message_handler(commands=['reg']) #Процедура регистрации
 async def user_register(message: types.Message):
     await message.answer("Введите ваше имя")
     await UserState.name.set()
 
 @dp.message_handler(state=UserState.name)
-async def get_username(message: types.Message, state: FSMContext):
+async def get_name(message: types.Message, state: FSMContext): #Получение
     if (len(message.text)) >= 2:
         if (len(message.text)) < 20:
             if any(char.isdigit() for char in message.text):
@@ -41,13 +45,13 @@ async def get_username(message: types.Message, state: FSMContext):
         await message.answer("Имя слишком короткое\n\n Попробуйте ввести ещё раз")
 
 @dp.message_handler(state=UserState.surname)
-async def get_address(message: types.Message, state: FSMContext):
+async def get_surname(message: types.Message, state: FSMContext): #Ф-ция фамилии
     if (len(message.text)) >= 2:
         if (len(message.text)) < 60:
             if any(char.isdigit() for char in message.text):
                 await message.answer('Фамилия не должна содержать цифр, попробуйте ввести ещё раз')
             else:
-                await state.update_data(surname=message.text)
+                await state.update_data(surname=message.text) # Запись значения surname
                 await message.answer("Введите адрес эл. почты")
                 await UserState.email.set()
 
@@ -57,10 +61,10 @@ async def get_address(message: types.Message, state: FSMContext):
         await message.answer('Фамилия слишком короткая, попробуйте ввести ещё раз')
 
 @dp.message_handler(state=UserState.email)
-async def get_result(message: types.Message, state: FSMContext):
+async def get_number(message: types.Message, state: FSMContext):
     email_validate_pattern = r"^\S+@\S+\.\S+$"
     if bool(re.match(email_validate_pattern, message.text)) == True:
-        await state.update_data(email=message.text)
+        await state.update_data(email=message.text) #Запись значения email
         await message.answer("Введите номер телефона:")
         await UserState.category.set()
     else:
@@ -127,8 +131,34 @@ async def get_age(message: types.Message, state: FSMContext):
                          parse_mode='html',
                          reply_markup=builder
                          )
-    await state.finish()
+    #await state.finish
+    await UserState.user_status.set()
 
+@dp.callback_query_handler(lambda c: c.data == 'reg_confirm' or c.data == 'reg_deviation', state=UserState.user_status)
+async def process_callback_reg_confirm(callback_query: types.CallbackQuery, state: FSMContext):
+    if callback_query.data == 'reg_confirm':
+        us = UserState()
+        await state.update_data(user_status='authorized')
+        await callback_query.message.answer('Все успешно заполнено 👏 \n\nВы можете ознакомиться с курсами с помощью команды <b> /course </b>', parse_mode='html')
+        data = await state.get_data()
+        CreateExcelTable.InsertTable(data)
+
+
+
+    elif callback_query.data == 'reg_deviation':
+            await state.update_data(user_status='unauthorized')
+            data = await state.get_data()
+            await callback_query.message.answer('Нажми кнопку <b>"/reg"</b> для возврата назад', parse_mode='html')
+            await state.finish()
+"""""
+@dp.callback_query_handler(filters.Text(startswith="reg_"), state=UserState.user_status)
+async def callbacks_for_registration(callback: types.CallbackQuery, state: FSMContext):
+    action = callback.data
+    if action == "confirm":
+        await callback.message.answer('Все успешно заполнено 👏 \n\nВы можете ознакомиться с курсами с помощью команды <b> /course </b>', parse_mode='html')
+        await state.update_data(user_status='authorized')
+        data = await state.get_data()
+"""""
 """""
 @dp.callback_query(filters.Text(startswith="reg_"))
 async def callbacks_for_registration(callback: types.callback_query, state:FSMContext):
