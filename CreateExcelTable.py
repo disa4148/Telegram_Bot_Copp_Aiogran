@@ -9,7 +9,8 @@ def InsertTable(data):
     Collected_Data = (['Имя', data['name']], ['Фамилия', data['surname']],
                       ['Номер телефона', data['number']],
                       ['Адрес эл. почты', data['email']],
-                      ['Возраст', data['age']])
+                      ['Возраст', data['age']],
+                      ['Целевая аудитория', data['category']])
     workbook = xlsxwriter.Workbook('C:/Users/7/Desktop/Collected_info_user.xlsx')
     worksheet = workbook.add_worksheet("Лист 1")
 

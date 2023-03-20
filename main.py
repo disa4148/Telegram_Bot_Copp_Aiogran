@@ -143,8 +143,6 @@ async def process_callback_reg_confirm(callback_query: types.CallbackQuery, stat
         data = await state.get_data()
         CreateExcelTable.InsertTable(data)
 
-
-
     elif callback_query.data == 'reg_deviation':
             await state.update_data(user_status='unauthorized')
             data = await state.get_data()
