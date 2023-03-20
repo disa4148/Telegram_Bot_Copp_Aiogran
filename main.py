@@ -149,29 +149,12 @@ async def process_callback_reg_confirm(callback_query: types.CallbackQuery, stat
             data = await state.get_data()
             await callback_query.message.answer('Нажми кнопку <b>"/reg"</b> для возврата назад', parse_mode='html')
             await state.finish()
-"""""
-@dp.callback_query_handler(filters.Text(startswith="reg_"), state=UserState.user_status)
-async def callbacks_for_registration(callback: types.CallbackQuery, state: FSMContext):
-    action = callback.data
-    if action == "confirm":
-        await callback.message.answer('Все успешно заполнено 👏 \n\nВы можете ознакомиться с курсами с помощью команды <b> /course </b>', parse_mode='html')
-        await state.update_data(user_status='authorized')
-        data = await state.get_data()
-"""""
-"""""
-@dp.callback_query(filters.Text(startswith="reg_"))
-async def callbacks_for_registration(callback: types.callback_query, state:FSMContext):
-    action = callback.data.split("_")[1]
-    data = await state.get_data()
-    if action == "confirm":
-        await callback.message.edit_text(
-            'Все успешно заполнено 👏 \n\n'
-            'Вы можете ознакомиться с курсами с помощью команды <b> /course </b>',
-            parse_mode='html')
-"""""
 # Запуск процесса поллинга новых апдейтов
 async def main():
     await dp.start_polling(bot)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+try:
+    if __name__ == "__main__":
+        print('Bot is working!!!')
+        asyncio.run(main())
+except:
+    print('Не работает...')

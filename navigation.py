@@ -10,6 +10,7 @@ dp = bot.dp
 
 @dp.message_handler(commands=['start']) #Cтарт бота
 async def start_work(message: types.Message):
+
     await message.answer("Добро пожаловать в телеграмм бот ЦОПП Кузбасса!\n\n" +
     "Мы занимаемся:\n\n" +
     "✅ Выявлением наиболее востребованных в регионе профессий;\n\n" +
@@ -22,18 +23,14 @@ async def start_work(message: types.Message):
     "✅ Организацией и проведением деловых встреч и мероприятий")
     await get_menu(message)
 
+
+
 @dp.message_handler(commands=['menu']) # Менюшка
 async def get_menu(message: types.Message):
     menu = types.InlineKeyboardMarkup(inline_keyboard=True)
     menu.add(types.InlineKeyboardButton(text="Записаться на курс 👨‍💻", callback_data='menu_course'))
     menu.add(types.InlineKeyboardButton(text="Наши контакты 🌍", callback_data='menu_contacts'))
     await message.answer("Выберите для продолжения", reply_markup=menu)
-"""""
-async def return_to_menu(message: types.Message): #Возврат
-    back = types.InlineKeyboardMarkup(inline_keyboard=True)
-    back.add(types.InlineKeyboardButton(text="Вернуться назад 👨‍💻", callback_data='menu_back'))
-    await message.answer("Нажмите кнопку для возврата", reply_markup=back)
-"""""
 
 @dp.callback_query_handler(filters.Text(startswith="menu_")) #Обработка обратной связи кнопок меню
 async def go_to_courses(callback: types.CallbackQuery):
@@ -58,7 +55,6 @@ async def go_to_courses(callback: types.CallbackQuery):
                                       "Telegram канал: \nhttps://t.me/copp42 \n\n" +
                                       "Youtube канал: \n\nhttps://www.youtube.com/channel/UCn2HyuY_HBUy9L75sqx0qcw",
                                       parse_mode='html', reply_markup=menu)
-
         @dp.callback_query_handler(lambda c: c.data == 'return_menu')
         async def return_to_menu(callback: types.CallbackQuery):
             if callback.data == "return_menu":
