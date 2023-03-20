@@ -7,7 +7,7 @@ import navigation
 import CreateExcelTable
 import EmailSender
 
-from datetime import datetime
+
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram import Bot, Dispatcher, types, filters
@@ -142,6 +142,7 @@ async def process_callback_reg_confirm(callback_query: types.CallbackQuery, stat
         await callback_query.message.answer('Все успешно заполнено 👏 \n\nВы можете ознакомиться с курсами с помощью команды <b> /course </b>', parse_mode='html')
         data = await state.get_data()
         CreateExcelTable.InsertTable(data)
+        await state.finish()
 
     elif callback_query.data == 'reg_deviation':
             await state.update_data(user_status='unauthorized')

@@ -4,6 +4,7 @@ import asyncio
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram import Bot, Dispatcher, types, filters
+from aiogram.types import ReplyKeyboardRemove, KeyboardButton, ReplyKeyboardMarkup
 
 dp = bot.dp
 
@@ -43,6 +44,8 @@ async def go_to_courses(callback: types.CallbackQuery):
                                       " Для регистрации в <b>Telegram</b> напишите <b>/reg</>", parse_mode="html")
 
     elif action == "contacts":
+        menu = types.InlineKeyboardMarkup(inline_keyboard=True)
+        menu.add(types.InlineKeyboardButton(text="Вызов меню ⚡", callback_data='return_menu'))
         await callback.message.answer('Контакты: \n\n' +
                                       "📍 650021, г.Кемерово, ул.Павленко, 1а\n\n" +
                                       "📞 +7 (3842) 57-11-20 \n📞 +7 (3842) 57-11-14\n\n" +
@@ -54,8 +57,14 @@ async def go_to_courses(callback: types.CallbackQuery):
                                       "Одноклассники: \nhttps://ok.ru/copp42kuzbass \n\n" +
                                       "Telegram канал: \nhttps://t.me/copp42 \n\n" +
                                       "Youtube канал: \n\nhttps://www.youtube.com/channel/UCn2HyuY_HBUy9L75sqx0qcw",
-                                      parse_mode='html')
-        #await return_to_menu(callback)
+                                      parse_mode='html', reply_markup=menu)
 
+        @dp.callback_query_handler(lambda c: c.data == 'return_menu')
+        async def return_to_menu(callback: types.CallbackQuery):
+            if callback.data == "return_menu":
+                await get_menu(callback.message)
+@dp.message_handler(commands=['course'])
+async def get_course (message: types.Message):
+    await message.answer('Список курсов:')
     #elif action == "back":
     #   await get_menu(callback.message)
