@@ -1,7 +1,7 @@
 import xlsxwriter
 import EmailSender
 from datetime import datetime
-addr_to = "denis.nikolaenko.2004@mail.ru"
+addr_to = "koly.bessonov.2004@mail.ru"
 
 
 

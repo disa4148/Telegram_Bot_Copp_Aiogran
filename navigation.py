@@ -1,5 +1,9 @@
-import bot
+import bot, Pagination
 import asyncio
+import json
+
+import main
+
 
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
@@ -32,10 +36,10 @@ async def get_menu(message: types.Message):
     menu.add(types.InlineKeyboardButton(text="Наши контакты 🌍", callback_data='menu_contacts'))
     await message.answer("Выберите для продолжения", reply_markup=menu)
 
-@dp.callback_query_handler(filters.Text(startswith="menu_")) #Обработка обратной связи кнопок меню
+@dp.callback_query_handler(filters.Text(startswith='menu_')) #Обработка обратной связи кнопок меню
 async def go_to_courses(callback: types.CallbackQuery):
     action = callback.data.split("_")[1]
-    if action == "course":
+    if action == 'course':
         await callback.message.answer("Для записи на курс необходимо пройти регистрацию \n\n"
                                       "Зарегистрироваться можно здесь: <b>https://platform.copp42.ru/registration</b>\n\n"
                                       " Для регистрации в <b>Telegram</b> напишите <b>/reg</>", parse_mode="html")
@@ -59,8 +63,40 @@ async def go_to_courses(callback: types.CallbackQuery):
         async def return_to_menu(callback: types.CallbackQuery):
             if callback.data == "return_menu":
                 await get_menu(callback.message)
+
 @dp.message_handler(commands=['course'])
-async def get_course (message: types.Message):
-    await message.answer('Список курсов:')
-    #elif action == "back":
-    #   await get_menu(callback.message)
+async def get_course (message: types.Message, state: FSMContext):
+    status = await state.get_data()
+    if status['user_status'] is not None:
+        with open('Events.json', encoding='utf-8') as f:
+            data = f.read()
+            categories = json.loads(data)
+            cat = 0
+            for i in categories['content']:
+                if i['begin']:
+                    cat = 1 + cat
+
+        i = categories['content']
+        count = cat
+        page = 1
+        markup = types.InlineKeyboardMarkup()
+        markup.add(types.InlineKeyboardButton(text='Скрыть', callback_data='unseen'))
+        markup.add(types.InlineKeyboardButton(text=f'{page}/{count}', callback_data=f' '),
+                   types.InlineKeyboardButton(text=f'Вперёд --->',
+                                              callback_data="{\"method\":\"pagination\",\"NumberPage\":" + str(
+                                                  page + 1) + ",\"CountPage\":" + str(count) + "}"))
+
+        await message.answer_photo()
+        await message.answer(f"{i[page]['image']['name']}\n" +
+                             f"{i[page]['name']}\n" +
+                             f"Целевая аудитория: {i[page]['targetGroup']['name']}\n" +
+                             f"Тип курса: {i[page]['type']['name']}\n" +
+                             f"Почта: {i[page]['speakerEmail']}\n" +
+                             f"Телефон для связи: {i[page]['speakerPhone']}\n" +
+                             f"Начало: {i[page]['begin'][3]}:{i[page]['begin'][4]}  Дата:{i[page]['begin'][2]}.{i[page]['begin'][1]}.{i[page]['begin'][0]}",
+                             reply_markup=markup, parse_mode='html')
+
+    else:
+        await message.answer(
+            "Для записи на курс необходимо пройти регистрацию \n\nЗарегистрироваться можно здесь: <b>https://platform.copp42.ru/registration</b>\n\n Для регистрации в <b>Telegram</b> напишите <b>/reg</>",
+            parse_mode="html")
