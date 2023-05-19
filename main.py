@@ -25,7 +25,7 @@ class UserState(StatesGroup):
     user_status = State()
 
 @dp.message_handler(commands=['reg']) #Процедура регистрации
-async def user_register(message: types.Message):
+async def user_register(message: types.Message, state: FSMContext):
     await message.answer("Введите ваше имя")
     await UserState.name.set()
 
