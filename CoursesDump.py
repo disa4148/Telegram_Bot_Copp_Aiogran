@@ -23,6 +23,8 @@ def get_course_name_by_id(course_id, content):
 # Обработчик команды /course
 @dp.message_handler(commands=['course'])
 async def start_work(message: types.Message):
+    await message.answer("Выберите интересующий вас курс:")
+
     content = load_data_from_json('courses.json')
 
     current_page = 1
