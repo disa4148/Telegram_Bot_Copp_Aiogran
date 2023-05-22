@@ -39,7 +39,7 @@ async def go_to_courses(callback: types.CallbackQuery):
     if action == "course":
         await callback.message.answer("Для записи на курс необходимо пройти регистрацию \n\n"
                                       "Зарегистрироваться можно здесь: <b>https://platform.copp42.ru/registration</b>\n\n"
-                                      " Для регистрации в <b>Telegram</b> напишите <b>/reg</>", parse_mode="html")
+                                      "‼️ <b> Для регистрации в Telegram напишите /reg ‼</b>", parse_mode="html")
 
     elif action == "contacts":
         menu = types.InlineKeyboardMarkup(inline_keyboard=True)
