@@ -60,7 +60,7 @@ async def go_to_courses(callback: types.CallbackQuery):
         async def return_to_menu(callback: types.CallbackQuery):
             if callback.data == "return_menu":
                 await get_menu(callback.message)
-@dp.message_handler(commands=['course'])
+@dp.message_handler(commands=['events'])
 async def get_course (message: types.Message, state: FSMContext):
     status = await state.get_data()
     #if status['user_status'] is not None:

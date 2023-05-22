@@ -1,0 +1,74 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "name": "Образование",
+      "image": {
+        "id": 1,
+        "name": "teach.jpg",
+        "src": "https://imgur.com/gallery/GVs0rTR"
+
+      }
+    },
+    {
+      "id": 2,
+      "name": "Сфера услуг",
+      "image": {
+        "id": 2,
+        "name": "uslug.jpg",
+        "src": "https://imgur.com/gallery/o7KKjd2"
+
+      }
+    },
+    {
+      "id": 3,
+      "name": "Строительство и строительные технологии",
+      "image": {
+        "id": 3,
+        "name": "build.jpg",
+        "src": "https://imgur.com/gallery/vNqYUR8"
+
+      }
+    },
+    {
+      "id": 4,
+      "name": "Транспорт и логистика",
+      "image": {
+        "id": 4,
+        "name": "auto.jpg",
+        "src": "https://imgur.com/gallery/GVs0rTR"
+
+      }
+    },
+    {
+      "id": 5,
+      "name": "Информационные и коммуникационные технологии",
+      "image": {
+        "id": 5,
+        "name": "it.jpg",
+        "src": "https://imgur.com/gallery/GVs0rTR"
+
+      }
+    },
+    {
+      "id": 6,
+      "name": "Производство и инженерные технологии",
+      "image": {
+        "id": 6,
+        "name": "tech.jpg",
+        "src": "https://imgur.com/gallery/GVs0rTR"
+
+      }
+    },
+    {
+      "id": 7,
+      "name": "Творчество и дизайн",
+      "image": {
+        "id": 7,
+        "name": "design.jpg",
+        "src": "https://imgur.com/gallery/GVs0rTR"
+
+      }
+    }
+  ]
+}

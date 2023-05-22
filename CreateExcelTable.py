@@ -11,7 +11,7 @@ def InsertTable(data):
                       ['Адрес эл. почты', data['email']],
                       ['Возраст', data['age']],
                       ['Целевая аудитория', data['category']])
-    workbook = xlsxwriter.Workbook('C:/Users/admin/Desktop/Collected_info_user.xlsx')
+    workbook = xlsxwriter.Workbook('C:/Users/14/Desktop/Collected_info_user.xlsx')
     worksheet = workbook.add_worksheet("Лист 1")
 
     for i, (item, information) in enumerate(Collected_Data, start=1):  # Создание Exel таблицы
@@ -19,7 +19,7 @@ def InsertTable(data):
         worksheet.write(f'B{i}', information)
     workbook.close()
 
-    files = ["C:/Users/admin/Desktop/Collected_info_user.xlsx"]
+    files = ["C:/Users/14/Desktop/Collected_info_user.xlsx"]
 
     EmailSender.send_email(addr_to, "Test Exel", "А вот и текст:)", files)  # Почта находится в файле ForEmail.py
 

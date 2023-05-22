@@ -6,7 +6,7 @@ import logging
 import navigation
 import CreateExcelTable
 import EmailSender
-
+import CoursesDump
 
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
