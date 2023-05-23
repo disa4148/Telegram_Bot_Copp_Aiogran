@@ -1,7 +1,7 @@
 import bot
 import json
 import asyncio
-import EventsDump
+
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram import Bot, Dispatcher, types, filters

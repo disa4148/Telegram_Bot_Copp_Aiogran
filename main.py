@@ -7,6 +7,7 @@ import navigation
 import CreateExcelTable
 import EmailSender
 import CoursesDump
+import EventsDump
 
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
@@ -157,4 +158,4 @@ try:
         print('Bot is working!!!')
         asyncio.run(main())
 except:
-    print('Не работает...')
+    print('Паламався..')

@@ -107,6 +107,3 @@ async def update_course_info(message: types.Message, current_page: int):
 
     # Изменяем изображение, используя новый URL
     await message.edit_media(types.InputMediaPhoto(media=new_image_src, caption=message_text), reply_markup=keyboard)
-
-if __name__ == '__main__':
-    bot.start_polling()
