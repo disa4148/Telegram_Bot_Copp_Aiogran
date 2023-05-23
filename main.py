@@ -1,6 +1,8 @@
 import bot
 import asyncio
 import re
+import datetime
+
 import xlsxwriter
 import logging
 import navigation
@@ -23,6 +25,7 @@ class UserState(StatesGroup):
     number = State()
     age = State()
     category = State()
+    time = State()
     user_status = State()
 
 @dp.message_handler(commands=['reg']) #Процедура регистрации
@@ -120,7 +123,11 @@ async def get_age(message: types.Message, state: FSMContext):
     builder.add(types.InlineKeyboardButton(text="Да ✅", callback_data='reg_confirm'))
     builder.add(types.InlineKeyboardButton(text="Нет ❌", callback_data='reg_deviation'))
 
+    current_time = datetime.datetime.now().strftime("%d.%m.%Y %H:%M")
+
     await state.update_data(age=message.text) #Запись значения в age
+    await state.update_data(time=current_time) #Запись значения в time
+
     data = await state.get_data()
     await message.answer(f"Проверьте, корректно ли заполнены поля?  💬\n\n"
                          f"Имя: <b>{data['name']}</b>\n"
@@ -159,3 +166,8 @@ try:
         asyncio.run(main())
 except:
     print('Паламався..')
+
+
+
+#now = datetime.datetime.now()
+#formatted_datetime = now.strftime("%d/%m/%Y/%H/%M")
