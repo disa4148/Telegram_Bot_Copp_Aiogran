@@ -11,8 +11,7 @@ def InsertTable(data):
                       ['Номер телефона', data['number']],
                       ['Адрес эл. почты', data['email']],
                       ['Возраст', data['age']],
-                      ['Целевая аудитория', data['category']]
-                      ['Дата отправки', datetime.datetime.now().strftime("%d-%m-%Y %H:%M")])
+                      ['Целевая аудитория', data['category']])
     workbook = xlsxwriter.Workbook('C:/Users/14/Desktop/Collected_info_user.xlsx')
     worksheet = workbook.add_worksheet("Лист 1")
 
