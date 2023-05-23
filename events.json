@@ -30,7 +30,7 @@
         "status": null,
         "name": "HVKS7kgDi8M-1677644182220.jpg",
         "filename": null,
-        "src": "/images/HVKS7kgDi8M-1677644182220.jpg",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/ej.jpg",
         "file": null
       },
       "targetGroup": {
@@ -80,7 +80,7 @@
         "status": null,
         "name": "IMG_0514-1675325012229.jpg",
         "filename": null,
-        "src": "/images/IMG_0514-1675325012229.jpg",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/ej.jpg",
         "file": null
       },
       "targetGroup": {
@@ -130,7 +130,7 @@
         "status": null,
         "name": "IMG_3580-1678676441355.jpg",
         "filename": null,
-        "src": "/images/IMG_3580-1678676441355.jpg",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/ej.jpg",
         "file": null
       },
       "targetGroup": {
@@ -180,7 +180,7 @@
         "status": null,
         "name": "CX94Cd-Qids-1678676418037.jpg",
         "filename": null,
-        "src": "/images/CX94Cd-Qids-1678676418037.jpg",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/ej.jpg",
         "file": null
       },
       "targetGroup": {
@@ -230,7 +230,7 @@
         "status": null,
         "name": "IMG_1633-1675325167868.JPG",
         "filename": null,
-        "src": "/images/IMG_1633-1675325167868.JPG",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/ej.jpg",
         "file": null
       },
       "targetGroup": {
@@ -280,7 +280,7 @@
         "status": null,
         "name": "IMG_9230-1675326668005.jpg",
         "filename": null,
-        "src": "/images/IMG_9230-1675326668005.jpg",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/ej.jpg",
         "file": null
       },
       "targetGroup": {
@@ -330,7 +330,7 @@
         "status": null,
         "name": "MR5swKc5ADQ-1677643920542.jpg",
         "filename": null,
-        "src": "/images/MR5swKc5ADQ-1677643920542.jpg",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/ej.jpg",
         "file": null
       },
       "targetGroup": {
@@ -380,7 +380,7 @@
         "status": null,
         "name": "IMG_9151-1675325124787.jpg",
         "filename": null,
-        "src": "/images/IMG_9151-1675325124787.jpg",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/ej.jpg",
         "file": null
       },
       "targetGroup": {
@@ -430,7 +430,7 @@
         "status": null,
         "name": "n9QoVt0PuJU-1678416345999.jpg",
         "filename": null,
-        "src": "/images/n9QoVt0PuJU-1678416345999.jpg",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/ej.jpg",
         "file": null
       },
       "targetGroup": {
@@ -480,7 +480,7 @@
         "status": null,
         "name": "IMG_8781-1675325047637.JPEG",
         "filename": null,
-        "src": "/images/IMG_8781-1675325047637.JPEG",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/ej.jpg",
         "file": null
       },
       "targetGroup": {
@@ -530,7 +530,7 @@
         "status": null,
         "name": "IMG_3580-1678160840235.jpg",
         "filename": null,
-        "src": "/images/IMG_3580-1678160840235.jpg",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/blun.jpg",
         "file": null
       },
       "targetGroup": {
@@ -573,13 +573,16 @@
       "speakerName": "Кремзюк Е.П.",
       "speakerEmail": "copp42@yandex.ru",
       "speakerPhone": "+7 384 257-11-20",
-      "image": null,
+      "image":{
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/blun.jpg"
+      },
       "targetGroup": {
         "id": 6,
         "created": 1659323263723,
         "updated": null,
         "status": null,
-        "name": "Все"
+        "name": "Все",
+        "file": null
       },
       "seats": 30,
       "bookedSeats": 0,
@@ -621,7 +624,7 @@
         "status": null,
         "name": "IMG_8591-1675324953389.JPEG",
         "filename": null,
-        "src": "/images/IMG_8591-1675324953389.JPEG",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/blun.jpg",
         "file": null
       },
       "targetGroup": {
@@ -671,7 +674,7 @@
         "status": null,
         "name": "7424e4c3-65bf-4520-8e77-5bfcb9f0ba49-1679026856106.jpg",
         "filename": null,
-        "src": "/images/7424e4c3-65bf-4520-8e77-5bfcb9f0ba49-1679026856106.jpg",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/blun.jpg",
         "file": null
       },
       "targetGroup": {
@@ -721,7 +724,7 @@
         "status": null,
         "name": "0e1def8e-1f6e-4bc9-bfa4-c00d67c77602-1679026865118.jpg",
         "filename": null,
-        "src": "/images/0e1def8e-1f6e-4bc9-bfa4-c00d67c77602-1679026865118.jpg",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/blun.jpg",
         "file": null
       },
       "targetGroup": {
@@ -764,13 +767,16 @@
       "speakerName": "Кремзюк Е.П.",
       "speakerEmail": "copp42@yandex.ru",
       "speakerPhone": "+7 384 257-11-20",
-      "image": null,
+      "image": {
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/blun.jpg"
+      },
       "targetGroup": {
         "id": 3,
         "created": 1659323250898,
         "updated": 1676538923067,
         "status": null,
-        "name": "Обучающиеся общеобразовательных учреждений 8-11 классы"
+        "name": "Обучающиеся общеобразовательных учреждений 8-11 классы",
+        "src": "C:/Users/14/Desktop/Telegram_Bot_Copp_Aiogran/photos/ej.jpg"
       },
       "seats": 97,
       "bookedSeats": 0,
@@ -805,13 +811,16 @@
       "speakerName": "Кремзюк Е.П.",
       "speakerEmail": "copp42@yandex.ru",
       "speakerPhone": "+7 384 257-11-20",
-      "image": null,
+      "image": {
+        "src": "C:/Users/12/PycharmProjects/Telegram_Bot_Copp_Aiogran/photos/blun.jpg"
+      },
       "targetGroup": {
         "id": 6,
         "created": 1659323263723,
         "updated": null,
         "status": null,
-        "name": "Все"
+        "name": "Все",
+        "scr": "C:/Users/12/PycharmProjects/Telegram_Bot_Copp_Aiogran/photos/ej.jpg"
       },
       "seats": 5,
       "bookedSeats": 0,
@@ -853,7 +862,7 @@
         "status": null,
         "name": "47b350ef-4b88-44e7-9e5d-d2ecb36e8f2c-1679026810200.jpg",
         "filename": null,
-        "src": "/images/47b350ef-4b88-44e7-9e5d-d2ecb36e8f2c-1679026810200.jpg",
+        "src": "C:/Users/12/PycharmProjects/Telegram_Bot_Copp_Aiogran/photos/blun.jpg",
         "file": null
       },
       "targetGroup": {
@@ -903,7 +912,7 @@
         "status": null,
         "name": "4a4e9935-8d87-4d18-ad45-3ca10169d16e-1679026797059.jpg",
         "filename": null,
-        "src": "/images/4a4e9935-8d87-4d18-ad45-3ca10169d16e-1679026797059.jpg",
+        "src": "C:/Users/12/PycharmProjects/Telegram_Bot_Copp_Aiogran/photos/blun.jpg",
         "file": null
       },
       "targetGroup": {
@@ -946,13 +955,16 @@
       "speakerName": "Позднякова О.Г.",
       "speakerEmail": "copp42@yandex.ru",
       "speakerPhone": "+7 384 257-11-20",
-      "image": null,
+      "image": {
+        "src": "C:/Users/12/PycharmProjects/Telegram_Bot_Copp_Aiogran/photos/blun.jpg"
+      },
       "targetGroup": {
         "id": 5,
         "created": 1659323258969,
         "updated": null,
         "status": null,
-        "name": "Взрослое население/работающий"
+        "name": "Взрослое население/работающий",
+        "scr": "C:/Users/12/PycharmProjects/Telegram_Bot_Copp_Aiogran/photos/ej.jpg"
       },
       "seats": 100,
       "bookedSeats": 0,
