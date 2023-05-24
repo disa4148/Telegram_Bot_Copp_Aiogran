@@ -956,7 +956,7 @@
       "speakerEmail": "copp42@yandex.ru",
       "speakerPhone": "+7 384 257-11-20",
       "image": {
-        "src": "C:/Users/12/PycharmProjects/Telegram_Bot_Copp_Aiogran/photos/blun.jpg"
+        "src": "photos/blun.jpg"
       },
       "targetGroup": {
         "id": 5,
