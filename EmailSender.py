@@ -22,9 +22,9 @@ def send_email(addr_to, msg_subj, msg_text, files):
     msg = MIMEMultipart()
     msg['From'] = addr_from
     msg['To'] = addr_to
-    msg['Subject'] = "Тестовая отправка Excel документа"
+    msg['Subject'] = "Новая заявка ЦОПП42"
 
-    body = "Новая заявка!)"
+    body = "Новая заявка!"
     msg.attach(MIMEText(body, 'plain'))  # Добавляем в сообщение текст
 
     process_attachement(msg, files)

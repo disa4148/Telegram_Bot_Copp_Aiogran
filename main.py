@@ -33,36 +33,41 @@ async def user_register(message: types.Message, state: FSMContext):
     await message.answer("Введите ваше имя")
     await UserState.name.set()
 
+
 @dp.message_handler(state=UserState.name)
-async def get_name(message: types.Message, state: FSMContext): #Получение
-    if (len(message.text)) >= 2:
-        if (len(message.text)) < 20:
+async def get_name(message: types.Message, state: FSMContext):
+    if len(message.text) >= 2:
+        if len(message.text) < 20:
             if any(char.isdigit() for char in message.text):
-                await message.answer("Имя не должно содержат цифр\n\n Попробуйте ввести ещё раз")
+                await message.answer("❌ Имя не должно содержать цифр\n\nПопробуйте ввести ещё раз")
+            elif "/" in message.text:
+                await message.answer("❌ Вы не можете использовать команды в процессе создания заявки. \n\n Введите данные ещё раз без символа '/'")
             else:
-                await state.update_data(name=message.text)  # Запись значения в name
+                await state.update_data(name=message.text)
                 await message.answer("Введите вашу фамилию")
-                await UserState.surname.set()  # либо же UserState.adress.set()
+                await UserState.surname.set()
         else:
-            await message.answer("Имя слишком длинное\n\n Попробуйте ввести ещё раз")
+            await message.answer("❌ Имя слишком длинное\n\nПопробуйте ввести ещё раз")
     else:
-        await message.answer("Имя слишком короткое\n\n Попробуйте ввести ещё раз")
+        await message.answer("❌ Имя слишком короткое\n\nПопробуйте ввести ещё раз")
 
 @dp.message_handler(state=UserState.surname)
 async def get_surname(message: types.Message, state: FSMContext): #Ф-ция фамилии
     if (len(message.text)) >= 2:
         if (len(message.text)) < 60:
             if any(char.isdigit() for char in message.text):
-                await message.answer('Фамилия не должна содержать цифр, попробуйте ввести ещё раз')
+                await message.answer('❌ Фамилия не должна содержать цифр, попробуйте ввести ещё раз')
+            elif "/" in message.text:
+                await message.answer("❌ Вы не можете использовать команды в процессе создания заявки. \n\n Введите данные ещё раз без символа '/'")
             else:
                 await state.update_data(surname=message.text) # Запись значения surname
                 await message.answer("Введите адрес эл. почты")
                 await UserState.email.set()
 
         else:
-            await message.answer("Фамилия слишком длинная\n\n Попробуйте ввести ещё раз")
+            await message.answer("❌ Фамилия слишком длинная\n\n Попробуйте ввести ещё раз")
     else:
-        await message.answer('Фамилия слишком короткая, попробуйте ввести ещё раз')
+        await message.answer('❌ Фамилия слишком короткая, попробуйте ввести ещё раз')
 
 @dp.message_handler(state=UserState.email)
 async def get_number(message: types.Message, state: FSMContext):
@@ -71,8 +76,11 @@ async def get_number(message: types.Message, state: FSMContext):
         await state.update_data(email=message.text) #Запись значения email
         await message.answer("Введите номер телефона:")
         await UserState.category.set()
+    elif "/" in message.text:
+        await message.answer(
+            "❌ Вы не можете использовать команды в процессе создания заявки. \n\n Введите данные ещё раз без символа '/'")
     else:
-        await message.answer("Введите корректные данные")
+        await message.answer("❌ Введите корректные данные")
 
 @dp.message_handler(state=UserState.category)
 async def get_category(message: types.Message, state: FSMContext):

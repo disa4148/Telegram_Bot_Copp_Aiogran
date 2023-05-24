@@ -36,7 +36,7 @@ async def get_menu(message: types.Message):
 @dp.message_handler(commands=['help'])
 async def get_help(message: types.Message):
     await message.answer("Список доступных команд: 🙏\n\n"
-                         "👉 start - Запуск бота\n"
+                         "👉 <b>start</b> - Запуск бота\n"
                          "👉 menu - Главное меню\n"
                          "👉 reg - Запуск процедуры регистрации\n"
                          "👉 course - Список курсов\n"
