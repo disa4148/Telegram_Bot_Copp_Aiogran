@@ -19,13 +19,17 @@ def get_course_name_by_id(course_id, content):
         if str(item['id']) == course_id:
             return item['name']
     return None
-
+def get_course(course_direction, cource_target_audience, cource):
+    for item in cource:
+        if course_direction == str(item['type']) and cource_target_audience == str(item['target_audience']):
+            return item
+    return None
 # Обработчик команды /course
 @dp.message_handler(commands=['course'])
 async def start_work(message: types.Message):
-    await message.answer("Выберите интересующий вас курс  🙌:")
+    await message.answer("Выберите интересующий вас направление курса  🙌:")
 
-    content = load_data_from_json('courses.json')
+    content = load_data_from_json('groupCourses.json')
 
     current_page = 1
     index = current_page - 1
@@ -41,13 +45,13 @@ async def start_work(message: types.Message):
     image_src = item['image']['src']
 
     message_text = f"ID: {id}\n"
-    message_text += f"Название курса: {name}\n"
+    message_text += f"Название направления: {name}\n"
     message_text += f"Имя изображения: {image_name}\n"
 
     keyboard = InlineKeyboardMarkup(row_width=2)
     prev_button = InlineKeyboardButton("Назад", callback_data="prev_page")
     next_button = InlineKeyboardButton("Вперёд", callback_data="next_page")
-    choose_button = InlineKeyboardButton("Выбрать курс", callback_data=f"choose_course_{id}")
+    choose_button = InlineKeyboardButton("Выбрать направление", callback_data=f"choose_course_{id}")
     keyboard.row(prev_button, next_button)
     keyboard.add(choose_button)
 
@@ -71,13 +75,23 @@ async def handle_next_page(callback_query: types.CallbackQuery):
 @dp.callback_query_handler(lambda c: c.data.startswith('choose_course_'))
 async def handle_choose_course(callback_query: types.CallbackQuery):
     course_id = callback_query.data.split('_')[-1]
-    content = load_data_from_json('courses.json')
+    content = load_data_from_json('groupCourses.json')
     course_name = get_course_name_by_id(course_id, content)
     await callback_query.answer(f"Вы выбрали курс: {course_name}")
+    await callback_query.message.answer("Курсы от ЦОППа!:\n\n" +
+                         "Мы занимаемся:\n\n" +
+                         "✅ Выявлением наиболее востребованных в регионе профессий;\n\n" +
+                         "✅ Разработкой единых подходов к образовательным программам для всех категорий граждан;\n\n" +
+                         "✅ Содействием центрам занятости в поиске соискателей для актуальных вакансий; \n\n" +
+                         "✅ Информированием работодателей и работников о проектах рынка труда;\n\n" +
+                         "✅ Защитой интеллектуальной собственности;\n\n" +
+                         "✅ Организацией и проведением профориентационных работ в регионе;\n\n" +
+                         "✅ Вопросами международного сотрудничества;\n\n" +
+                         "✅ Организацией и проведением деловых встреч и мероприятий")
 
 # Функция обновления информации о курсе
 async def update_course_info(message: types.Message, current_page: int):
-    content = load_data_from_json('courses.json')
+    content = load_data_from_json('groupCourses.json')
 
     index = current_page - 1
 
@@ -107,3 +121,5 @@ async def update_course_info(message: types.Message, current_page: int):
 
     # Изменяем изображение, используя новый URL
     await message.edit_media(types.InputMediaPhoto(media=new_image_src, caption=message_text), reply_markup=keyboard)
+
+
