@@ -29,7 +29,7 @@ async def start_work(message: types.Message):
 @dp.message_handler(commands=['menu']) # Менюшка
 async def get_menu(message: types.Message):
     menu = types.InlineKeyboardMarkup(inline_keyboard=True)
-    menu.add(types.InlineKeyboardButton(text="Записаться на курс 👨‍💻", callback_data='menu_course'))
+    menu.add(types.InlineKeyboardButton(text="Создание заявки на курс 👨‍💻", callback_data='menu_course'))
     menu.add(types.InlineKeyboardButton(text="Наши контакты 🌍", callback_data='menu_contacts'))
     await message.answer("Выберите для продолжения", reply_markup=menu)
 
@@ -46,9 +46,9 @@ async def get_help(message: types.Message):
 async def go_to_courses(callback: types.CallbackQuery):
     action = callback.data.split("_")[1]
     if action == "course":
-        await callback.message.answer("Для записи на курс необходимо пройти регистрацию \n\n"
-                                      "Зарегистрироваться можно здесь: <b>https://platform.copp42.ru/registration</b>\n\n"
-                                      "‼️ <b> Для регистрации в Telegram напишите /reg ‼</b>", parse_mode="html")
+        await callback.message.answer("📝 Для записи на курс необходимо заполнить данные о себе. \n\n"
+                                      "📞 После заполнения всех данных с вами свяжется специалист <b> Центра опережающей профессиональной подготовки.</b> \n\n"
+                                      "‼️ <b> Для создания заявки напишите /reg ‼</b> в чат.", parse_mode="html")
 
     elif action == "contacts":
         menu = types.InlineKeyboardMarkup(inline_keyboard=True)
