@@ -33,6 +33,15 @@ async def get_menu(message: types.Message):
     menu.add(types.InlineKeyboardButton(text="Наши контакты 🌍", callback_data='menu_contacts'))
     await message.answer("Выберите для продолжения", reply_markup=menu)
 
+@dp.message_handler(commands=['help'])
+async def get_help(message: types.Message):
+    await message.answer("Список доступных команд: 🙏\n\n"
+                         "👉 start - Запуск бота\n"
+                         "👉 menu - Главное меню\n"
+                         "👉 reg - Запуск процедуры регистрации\n"
+                         "👉 course - Список курсов\n"
+                         "👉 events - Список мероприятий\n")
+
 @dp.callback_query_handler(filters.Text(startswith="menu_")) #Обработка обратной связи кнопок меню
 async def go_to_courses(callback: types.CallbackQuery):
     action = callback.data.split("_")[1]
@@ -60,3 +69,4 @@ async def go_to_courses(callback: types.CallbackQuery):
         async def return_to_menu(callback: types.CallbackQuery):
             if callback.data == "return_menu":
                 await get_menu(callback.message)
+

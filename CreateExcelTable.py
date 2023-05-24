@@ -4,7 +4,7 @@ import EmailSender
 from datetime import datetime
 
 addr_to = "denis.nikolaenko.2004@mail.ru"
-file_path = 'C:/Users/14/Desktop/Collected_info_user.xlsx'
+file_path = 'CollectedData/Collected_info_user.xlsx'
 
 def InsertTable(data):
     # Создание нового DataFrame с новыми данными
