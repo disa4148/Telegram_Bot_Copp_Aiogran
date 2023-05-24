@@ -21,7 +21,7 @@ def InsertTable(data):
     try:
         # Чтение существующего файла, если он существует
         existing_data = pd.read_excel(file_path)
-        combined_data = pd.concat([existing_data, new_data], ignore_index=True)
+        combined_data = pd.concat([new_data, existing_data], ignore_index=True)
     except FileNotFoundError:
         # Если файл не существует, создаем DataFrame только с новыми данными
         combined_data = new_data

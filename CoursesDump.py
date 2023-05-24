@@ -35,7 +35,8 @@ async def start_work(message: types.Message):
     index = current_page - 1
 
     if index >= len(content):
-        await message.answer("Страница не существует.")
+        await message.answer("Вы посмотрели все категории курсов. 🚫\n\n"
+                             "Для просмотра прошлых категорий курсов нажмите кнопку 'Назад' ⬅")
         return
 
     item = content[index]
@@ -78,6 +79,7 @@ async def handle_choose_course(callback_query: types.CallbackQuery):
     content = load_data_from_json('groupCourses.json')
     course_name = get_course_name_by_id(course_id, content)
     await callback_query.answer(f"Вы выбрали курс: {course_name}")
+
     await callback_query.message.answer("Курсы от ЦОППа!:\n\n" +
                          "Мы занимаемся:\n\n" +
                          "✅ Выявлением наиболее востребованных в регионе профессий;\n\n" +
@@ -89,6 +91,8 @@ async def handle_choose_course(callback_query: types.CallbackQuery):
                          "✅ Вопросами международного сотрудничества;\n\n" +
                          "✅ Организацией и проведением деловых встреч и мероприятий")
 
+
+
 # Функция обновления информации о курсе
 async def update_course_info(message: types.Message, current_page: int):
     content = load_data_from_json('groupCourses.json')
@@ -96,7 +100,8 @@ async def update_course_info(message: types.Message, current_page: int):
     index = current_page - 1
 
     if index >= len(content):
-        await message.answer("Страница не существует.")
+        await message.answer("Вы посмотрели все категории курсов. 🚫\n\n"
+                             "Для просмотра прошлых категорий курсов нажмите кнопку 'Назад' ⬅")
         return
 
     item = content[index]
