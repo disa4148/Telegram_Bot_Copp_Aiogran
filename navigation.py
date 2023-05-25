@@ -33,6 +33,23 @@ async def get_menu(message: types.Message):
     menu.add(types.InlineKeyboardButton(text="Наши контакты 🌍", callback_data='menu_contacts'))
     await message.answer("Выберите для продолжения", reply_markup=menu)
 
+@dp.message_handler(commands=['contacts'])
+async  def get_contacts(message:types.Message):
+    menu = types.InlineKeyboardMarkup(inline_keyboard=True)
+    menu.add(types.InlineKeyboardButton(text="Вызов меню ⚡", callback_data='return_menu'))
+    await message.answer('Контакты: \n\n' +
+                                  "📍 650021, г.Кемерово, ул.Павленко, 1а\n\n" +
+                                  "📞 +7 (3842) 57-11-20 \n📞 +7 (3842) 57-11-14\n\n" +
+                                  "✉  copp42@yandex.ru\n\n" +
+                                  "Режим работы:\n\n" +
+                                  "Пн-Пт 8:30-17:00\nСб 8:30-14:00\nВс-выходной\n" +
+                                  "Социальные сети: \n\n" +
+                                  "Вконтакте: \nhttps://vk.com/copp42kuzbass \n\n" +
+                                  "Одноклассники: \nhttps://ok.ru/copp42kuzbass \n\n" +
+                                  "Telegram канал: \nhttps://t.me/copp42 \n\n" +
+                                  "Youtube канал: \n\nhttps://www.youtube.com/channel/UCn2HyuY_HBUy9L75sqx0qcw",
+                                  parse_mode='html', reply_markup=menu)
+
 @dp.message_handler(commands=['help'])
 async def get_help(message: types.Message):
     await message.answer("Список доступных команд: 🙏\n\n"
@@ -52,20 +69,8 @@ async def go_to_courses(callback: types.CallbackQuery):
                                       "‼️ <b> Для создания заявки напишите /reg ‼</b> в чат.", parse_mode="html")
 
     elif action == "contacts":
-        menu = types.InlineKeyboardMarkup(inline_keyboard=True)
-        menu.add(types.InlineKeyboardButton(text="Вызов меню ⚡", callback_data='return_menu'))
-        await callback.message.answer('Контакты: \n\n' +
-                                      "📍 650021, г.Кемерово, ул.Павленко, 1а\n\n" +
-                                      "📞 +7 (3842) 57-11-20 \n📞 +7 (3842) 57-11-14\n\n" +
-                                      "✉  copp42@yandex.ru\n\n" +
-                                      "Режим работы:\n\n" +
-                                      "Пн-Пт 8:30-17:00\nСб 8:30-14:00\nВс-выходной\n" +
-                                      "Социальные сети: \n\n" +
-                                      "Вконтакте: \nhttps://vk.com/copp42kuzbass \n\n" +
-                                      "Одноклассники: \nhttps://ok.ru/copp42kuzbass \n\n" +
-                                      "Telegram канал: \nhttps://t.me/copp42 \n\n" +
-                                      "Youtube канал: \n\nhttps://www.youtube.com/channel/UCn2HyuY_HBUy9L75sqx0qcw",
-                                      parse_mode='html', reply_markup=menu)
+        await get_contacts(callback.message)
+
 @dp.callback_query_handler(lambda c: c.data == 'return_menu')
 async def return_to_menu(callback: types.CallbackQuery):
     if callback.data == "return_menu":
