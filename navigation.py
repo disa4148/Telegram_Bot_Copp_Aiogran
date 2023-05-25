@@ -66,8 +66,8 @@ async def go_to_courses(callback: types.CallbackQuery):
                                       "Telegram канал: \nhttps://t.me/copp42 \n\n" +
                                       "Youtube канал: \n\nhttps://www.youtube.com/channel/UCn2HyuY_HBUy9L75sqx0qcw",
                                       parse_mode='html', reply_markup=menu)
-        @dp.callback_query_handler(lambda c: c.data == 'return_menu')
-        async def return_to_menu(callback: types.CallbackQuery):
-            if callback.data == "return_menu":
-                await get_menu(callback.message)
+@dp.callback_query_handler(lambda c: c.data == 'return_menu')
+async def return_to_menu(callback: types.CallbackQuery):
+    if callback.data == "return_menu":
+        await get_menu(callback.message)
 
