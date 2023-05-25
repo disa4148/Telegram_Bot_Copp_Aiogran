@@ -170,7 +170,7 @@ async def process_callback_reg_confirm(callback_query: types.CallbackQuery, stat
     elif callback_query.data == 'reg_deviation':
             await state.update_data(user_status='unauthorized')
             data = await state.get_data()
-            await callback_query.message.answer('Нажми кнопку <b>"/reg"</b> для возврата назад', parse_mode='html')
+            await callback_query.message.answer('Нажмите кнопку 👉 <b>"/reg"</b> для повторного заполнения данных', parse_mode='html')
             await state.finish()
 # Запуск процесса поллинга новых апдейтов
 async def main():

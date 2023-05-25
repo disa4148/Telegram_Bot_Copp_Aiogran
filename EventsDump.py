@@ -83,11 +83,11 @@ async def pagination_func(callback: types.CallbackQuery, n=-1):
                                             callback_data="{\"method\":\"pagination\",\"NumberPage\":" + str(
                                                 page + 1) + ",\"CountPage\":" + str(count) +"}"))
             await callback.message.edit_media(media=aiogram.types.InputMedia(type='photo', media=open(i[page]['image']['src'], 'rb'),
-                                             caption=f"{i[page]['name']}\n" +
-                                             f"Целевая аудитория: {i[page]['targetGroup']['name']}\n" +
-                                             f"Тип курса: {i[page]['type']['name']}\n" +
-                                             f"Почта: {i[page]['speakerEmail']}\n" +
-                                             f"Телефон для связи: {i[page]['speakerPhone']}\n" +
+                                             caption=f"{i[page]['name']}\n\n" +
+                                             f"Целевая аудитория: {i[page]['targetGroup']['name']}\n\n" +
+                                             f"Тип курса: {i[page]['type']['name']}\n\n" +
+                                             f"Почта: {i[page]['speakerEmail']}\n\n" +
+                                             f"Телефон для связи: {i[page]['speakerPhone']}\n\n" +
                                              f"Начало: {i[page]['begin'][3]}:{i[page]['begin'][4]}  Дата:{i[page]['begin'][2]}.{i[page]['begin'][1]}.{i[page]['begin'][0]}",
                                              ), reply_markup=markup)
         # markup для второй страницы
@@ -97,11 +97,11 @@ async def pagination_func(callback: types.CallbackQuery, n=-1):
                                                 page - 1) + ",\"CountPage\":" + str(count) + "}"),
                        types.InlineKeyboardButton(text=f'{page+1}/{count}', callback_data=f' '))
             await callback.message.edit_media(media=aiogram.types.InputMedia(type='photo', media=open(i[page]['image']['src'], 'rb'),
-                                             caption=f"{i[page]['name']}\n" +
-                                             f"Целевая аудитория: {i[page]['targetGroup']['name']}\n" +
-                                             f"Тип курса: {i[page]['type']['name']}\n" +
-                                             f"Почта: {i[page]['speakerEmail']}\n" +
-                                             f"Телефон для связи: {i[page]['speakerPhone']}\n" +
+                                             caption=f"{i[page]['name']}\n\n" +
+                                             f"Целевая аудитория: {i[page]['targetGroup']['name']}\n\n" +
+                                             f"Тип курса: {i[page]['type']['name']}\n\n" +
+                                             f"Почта: {i[page]['speakerEmail']}\n\n" +
+                                             f"Телефон для связи: {i[page]['speakerPhone']}\n\n" +
                                              f"Начало: {i[page]['begin'][3]}:{i[page]['begin'][4]}  Дата:{i[page]['begin'][2]}.{i[page]['begin'][1]}.{i[page]['begin'][0]}",
                                              ), reply_markup=markup)
         # markup для остальных страниц
@@ -115,11 +115,11 @@ async def pagination_func(callback: types.CallbackQuery, n=-1):
                                                       page + 1) + ",\"CountPage\":" + str(count) + "}"))
 
             await callback.message.edit_media(media=aiogram.types.InputMedia(type='photo', media=open(i[page]['image']['src'], 'rb'),
-                                                                             caption = f"{i[page]['name']}\n"+
-                                             f"Целевая аудитория: {i[page]['targetGroup']['name']}\n"+
-                                             f"Тип курса: {i[page]['type']['name']}\n"+
-                                             f"Почта: {i[page]['speakerEmail']}\n"+
-                                             f"Телефон для связи: {i[page]['speakerPhone']}\n"+
+                                                                             caption = f"{i[page]['name']}\n\n"+
+                                             f"Целевая аудитория: {i[page]['targetGroup']['name']}\n\n"+
+                                             f"Тип курса: {i[page]['type']['name']}\n\n"+
+                                             f"Почта: {i[page]['speakerEmail']}\n\n"+
+                                             f"Телефон для связи: {i[page]['speakerPhone']}\n\n"+
                                              f"Начало: {i[page]['begin'][3]}:{i[page]['begin'][4]}  Дата:{i[page]['begin'][2]}.{i[page]['begin'][1]}.{i[page]['begin'][0]}",
                                               )
                                               ,reply_markup=markup)
