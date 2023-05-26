@@ -2,6 +2,7 @@ import json
 import bot
 import asyncio
 
+
 from aiogram import Bot, Dispatcher, types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -20,10 +21,14 @@ def get_course_name_by_id(course_id, content):
             return item['name']
     return None
 def get_course(course_direction, cource_target_audience, cource):
+    result = {"content": []}
     for item in cource:
-        if course_direction == str(item['type']):
-            return item
-    return None
+        if course_direction == str(item["type"]):
+
+            result["content"].append(item)
+    print(result['content'][0]['name'])
+    return result
+
 # Обработчик команды /course
 @dp.message_handler(commands=['course'])
 async def start_work(message: types.Message):
@@ -84,17 +89,22 @@ async def handle_choose_course(callback_query: types.CallbackQuery):
     find_courses = load_data_from_json('courses.json')
     course_name = get_course_name_by_id(course_id, content)
     await callback_query.answer(f"Вы выбрали курс: {course_name}")
+    keyboard = InlineKeyboardMarkup(row_width=1)
+    prev_button = InlineKeyboardButton("Назад", callback_data='course')
+    keyboard.row(prev_button)
 
     line = ""
     all_curses = get_course(course_name, 0 ,find_courses)
-    all_curses = str(all_curses).replace("'",'"')
-    for course in json.loads(all_curses):
-        line = line + f'<h2>{course}</h2>\n<em>Направление курса: {course}\nЦелевая аудитория: {course}</em>\n'
+    for element in all_curses['content']:
+        line = line + f'✅ \n<b>{element["name"]}</b>\n<em>Направление курса: {element["type"]}\nЦелевая аудитория: {element["target_audience"]}</em>\n'
 
 
-    await callback_query.message.answer("Курсы от ЦОППа!:\n\n" + line, parse_mode='html')
+    await callback_query.message.answer("Курсы от ЦОППа!:\n\n" + line, parse_mode='html', reply_markup=keyboard)
 
-
+@dp.callback_query_handler(text_contains='course')
+async def go_back_course(callback_query: types.CallbackQuery):
+    await callback_query.message.delete()
+    await start_work(callback_query.message)
 
 # Функция обновления информации о курсе
 async def update_course_info(message: types.Message, current_page: int):
