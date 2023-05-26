@@ -26,16 +26,15 @@ def get_course(course_direction, cource_target_audience, cource):
         if course_direction == str(item["type"]):
 
             result["content"].append(item)
-    print(result['content'][0]['name'])
+    #print(result['content'][0]['name'])
     return result
 
 # Обработчик команды /course
 @dp.message_handler(commands=['course'])
 async def start_work(message: types.Message):
 
-    await message.answer(
+    msg = await message.answer(
         "Выберите интересующее вас направление курса  🙌\n\n" "❗Исходя из выбранного направления вам будут предложены соответствующие программы")
-
 
 
     content = load_data_from_json('groupCourses.json')
@@ -84,6 +83,7 @@ async def handle_next_page(callback_query: types.CallbackQuery):
 # Обработчик выбора курса
 @dp.callback_query_handler(lambda c: c.data.startswith('choose_course_'))
 async def handle_choose_course(callback_query: types.CallbackQuery):
+
     course_id = callback_query.data.split('_')[-1]
     content = load_data_from_json('groupCourses.json')
     find_courses = load_data_from_json('courses.json')
@@ -104,7 +104,6 @@ async def handle_choose_course(callback_query: types.CallbackQuery):
 @dp.callback_query_handler(text_contains='course')
 async def go_back_course(callback_query: types.CallbackQuery):
     await callback_query.message.delete()
-    await start_work(callback_query.message)
 
 # Функция обновления информации о курсе
 async def update_course_info(message: types.Message, current_page: int):
