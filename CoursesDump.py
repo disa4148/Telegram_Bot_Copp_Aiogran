@@ -56,7 +56,7 @@ async def start_work(message: types.Message):
 
     message_text = f"ID: {id}\n"
     message_text += f"Название направления: {name}\n"
-    message_text += f"Имя изображения: {image_name}\n"
+    #message_text += f"Имя изображения: {image_name}\n"
 
     keyboard = InlineKeyboardMarkup(row_width=2)
     prev_button = InlineKeyboardButton("Назад", callback_data="prev_page")
@@ -125,7 +125,7 @@ async def update_course_info(message: types.Message, current_page: int):
 
     message_text = f"ID: {id}\n"
     message_text += f"Название курса: {name}\n"
-    message_text += f"Имя изображения: {image_name}\n"
+    #message_text += f"Имя изображения: {image_name}\n"
 
     keyboard = InlineKeyboardMarkup(row_width=2)
     prev_button = InlineKeyboardButton("Назад", callback_data="prev_page")
