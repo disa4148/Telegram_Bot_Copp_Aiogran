@@ -24,8 +24,6 @@ async def start_work(message: types.Message):
     "✅ Организацией и проведением деловых встреч и мероприятий")
     await get_menu(message)
 
-
-
 @dp.message_handler(commands=['menu']) # Менюшка
 async def get_menu(message: types.Message):
     menu = types.InlineKeyboardMarkup(inline_keyboard=True)
@@ -35,7 +33,7 @@ async def get_menu(message: types.Message):
     menu.add(types.InlineKeyboardButton(text="Наше местоположение 📍", callback_data='menu_location'))
     menu.add(types.InlineKeyboardButton(text="Помощь 💬", callback_data='menu_help'))
     await message.answer("Вы вызвали главное меню 💫 \n\n"
-                         "Для продолжения выберите интересующую вас информацию 🧑‍💻", reply_markup=menu)
+                         "Для продолжения выберите интересующую вас информацию, нажав на соответствующую кнопку 🧑‍💻", reply_markup=menu)
 
 
 @dp.message_handler(commands=['contacts'])
@@ -103,8 +101,6 @@ async def sort_menu(callback: types.CallbackQuery):
 
     elif action == "help":
         await get_help(callback.message)
-
-
 
 @dp.callback_query_handler(lambda c: c.data == 'return_menu')
 async def return_to_menu(callback: types.CallbackQuery):
