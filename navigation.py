@@ -30,8 +30,13 @@ async def start_work(message: types.Message):
 async def get_menu(message: types.Message):
     menu = types.InlineKeyboardMarkup(inline_keyboard=True)
     menu.add(types.InlineKeyboardButton(text="Создание заявки на курс 👨‍💻", callback_data='menu_course'))
+    menu.add(types.InlineKeyboardButton(text="Просмотр мероприятий 👏", callback_data='menu_events'))
     menu.add(types.InlineKeyboardButton(text="Наши контакты 🌍", callback_data='menu_contacts'))
-    await message.answer("Выберите для продолжения", reply_markup=menu)
+    menu.add(types.InlineKeyboardButton(text="Наше местоположение 📍", callback_data='menu_location'))
+    menu.add(types.InlineKeyboardButton(text="Помощь 💬", callback_data='menu_help'))
+    await message.answer("Вы вызвали главное меню 💫 \n\n"
+                         "Для продолжения выберите интересующую вас информацию 🧑‍💻", reply_markup=menu)
+
 
 @dp.message_handler(commands=['contacts'])
 async  def get_contacts(message:types.Message):
@@ -52,6 +57,8 @@ async  def get_contacts(message:types.Message):
 
 @dp.message_handler(commands=['help'])
 async def get_help(message: types.Message):
+    menu = types.InlineKeyboardMarkup(inline_keyboard=True)
+    menu.add(types.InlineKeyboardButton(text="Вызов меню ⚡", callback_data='return_menu'))
     await message.answer("Список доступных команд: 🙏\n\n"
                          "👉<b> start </b>  - Запуск бота\n\n"
                          "👉<b> menu </b> - Главное меню\n\n"
@@ -63,25 +70,41 @@ async def get_help(message: types.Message):
                          "👉<b> location  </b> - Наше местоположение\n\n"
                          "👉<b> help  </b> - Вызов списка доступных команд\n\n"
 
-                         " ‼ <b>Перед каждой командой необходимо ставить символ '/'</b>", parse_mode="html")
+                         " ‼ <b>Перед каждой командой необходимо ставить символ '/'</b>", parse_mode="html", reply_markup=menu)
 
 @dp.message_handler(commands=['location'])
 async def get_location(message: types.Message):
+    menu = types.InlineKeyboardMarkup(inline_keyboard=True)
+    menu.add(types.InlineKeyboardButton(text="Вызов меню ⚡", callback_data='return_menu'))
     await message.answer("Мы находимся здесь! 🌍\n" 
                          "г. Кемерово, Павленко 1А 📍\n\n"
                          "Нажми на карту, для того чтобы открыть приложение и построить маршрут! 🚀")
-    await message.answer_location(latitude=55.34761140195859, longitude=86.00465968757983)
+
+    await message.answer_location(latitude=55.34761140195859, longitude=86.00465968757983, reply_markup=menu)
+
+
 
 @dp.callback_query_handler(filters.Text(startswith="menu_")) #Обработка обратной связи кнопок меню
-async def go_to_courses(callback: types.CallbackQuery):
+async def sort_menu(callback: types.CallbackQuery):
     action = callback.data.split("_")[1]
     if action == "course":
         await callback.message.answer("📝 Для записи на курс необходимо заполнить данные о себе. \n\n"
                                       "📞 После заполнения всех данных с вами свяжется специалист <b> Центра опережающей профессиональной подготовки.</b> \n\n"
                                       "‼️ <b> Для создания заявки напишите /reg ‼</b> в чат.", parse_mode="html")
 
+    elif action == "events":
+        await callback.message.answer("👨‍💻 Для того чтобы ознакомиться с грядущими мероприятиями отправьте в чат команду <b> /events. </b> ", parse_mode="html")
+
     elif action == "contacts":
         await get_contacts(callback.message)
+
+    elif action == "location":
+        await get_location(callback.message)
+
+    elif action == "help":
+        await get_help(callback.message)
+
+
 
 @dp.callback_query_handler(lambda c: c.data == 'return_menu')
 async def return_to_menu(callback: types.CallbackQuery):

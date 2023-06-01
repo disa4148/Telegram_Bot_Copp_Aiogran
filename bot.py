@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Объект бота
 #bot = Bot(token=config.BOT_TOKEN)
-bot = Bot(token='5826445945:AAGwHbEk5eklQu7BIOwszG84EALhWrzmCJw')
+bot = Bot(token='5692248488:AAEt2w_r9NQxgdJYZifHtzhhlwadVPcc0DM')
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
