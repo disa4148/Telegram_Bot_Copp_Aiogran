@@ -51,8 +51,6 @@ async def get_course(message: types.Message, state: FSMContext):
     except Exception as e:
         print(f"An error occurred in get_course: {str(e)}")
 
-
-
 @dp.callback_query_handler(lambda call: True)
 async def pagination_func(callback: types.CallbackQuery, n=-1):
     try:

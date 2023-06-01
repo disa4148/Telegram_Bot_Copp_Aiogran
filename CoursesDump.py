@@ -111,7 +111,7 @@ async def handle_choose_course(callback_query: types.CallbackQuery):
         line = ""
         all_courses = get_course(course_name, 0, find_courses)
         for element in all_courses['content']:
-            line = line + f'✅ \n<b>{element["name"]}</b>\n<em>Направление курса: {element["type"]}\nЦелевая аудитория: {element["target_audience"]}</em>\n'
+            line = line + f'✅ <b>{element["name"]}</b>\n<em>Направление курса: {element["type"]}\nЦелевая аудитория: {element["target_audience"]}</em>\n\n'
 
         await callback_query.message.answer("Курсы от ЦОППа!:\n\n" + line, parse_mode='html', reply_markup=keyboard)
     except Exception as e:
@@ -158,4 +158,4 @@ async def update_course_info(message: types.Message, current_page: int):
         # Изменяем изображение, используя новый URL
         await message.edit_media(types.InputMediaPhoto(media=new_image_src, caption=message_text), reply_markup=keyboard)
     except Exception as e:
-        print("Произошла ошибка при обновлении информации о курсе:", str(e))
+        print("Произошла ошибка при обновлении информации о курсе (слишком много запросов):", str(e))
