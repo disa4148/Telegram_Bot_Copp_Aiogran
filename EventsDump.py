@@ -38,30 +38,6 @@ async def get_course(message: types.Message, state: FSMContext):
                              f"Начало: {i[page]['begin'][3]}:{i[page]['begin'][4]}  Дата:{i[page]['begin'][2]}.{i[page]['begin'][1]}.{i[page]['begin'][0]}",
                                    reply_markup=markup, parse_mode='html')
 
-        i = categories['content']
-        count = cat
-        page = 0
-        markup = types.InlineKeyboardMarkup()
-        markup.add(types.InlineKeyboardButton(text='Скрыть', callback_data='unseen'))
-        markup.add(
-            types.InlineKeyboardButton(text=f'{page + 1}/{count}', callback_data=f' '),
-            types.InlineKeyboardButton(
-                text=f'Вперёд --->',
-                callback_data='{"method":"pagination","NumberPage":' + str(page + 1) + ',"CountPage":' + str(count) + '}'
-            )
-        )
-
-        await message.answer_photo(
-            open(i[page]['image']['src'], 'rb'),
-            caption=f"{i[page]['name']}\n" +
-                    f"Целевая аудитория: {i[page]['targetGroup']['name']}\n" +
-                    f"Тип курса: {i[page]['type']['name']}\n" +
-                    f"Почта: {i[page]['speakerEmail']}\n" +
-                    f"Телефон для связи: {i[page]['speakerPhone']}\n" +
-                    f"Начало: {i[page]['begin'][3]}:{i[page]['begin'][4]}  Дата:{i[page]['begin'][2]}.{i[page]['begin'][1]}.{i[page]['begin'][0]}",
-            reply_markup=markup,
-            parse_mode='html'
-        )
     except Exception as e:
         print(f"An error occurred in get_course: {str(e)}")
 
