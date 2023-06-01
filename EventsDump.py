@@ -42,6 +42,7 @@ async def get_course(message: types.Message, state: FSMContext):
                              f"Телефон для связи: {i[page]['speakerPhone']}\n" +
                              f"Начало: {i[page]['begin'][3]}:{i[page]['begin'][4]}  Дата:{i[page]['begin'][2]}.{i[page]['begin'][1]}.{i[page]['begin'][0]}",
                                    reply_markup=markup, parse_mode='html')
+
     except Exception as e:
         print(f"An error occurred in get_course: {str(e)}")
 
@@ -49,7 +50,7 @@ async def get_course(message: types.Message, state: FSMContext):
 
 @dp.callback_query_handler(lambda call: True)
 async def pagination_func(callback: types.CallbackQuery, n=-1):
-   # try:
+    try:
         with open('events.json', encoding='utf-8') as f:
             data = f.read()
             categories = json.loads(data)
@@ -80,10 +81,28 @@ async def pagination_func(callback: types.CallbackQuery, n=-1):
             # ), reply_markup=markup)
             await callback.message.answer("Вы точно хотите записаться?", reply_markup=markup)
             print(req[0])
+        req = callback.data.split('_')
+        # Обработка кнопки - скрыть
+        i = categories['content']
+
+        # Расспарсим полученный JSON
+        json_string = json.loads(req[0])
+        count = json_string['CountPage']
+        page = json_string['NumberPage']
+        if req[0] == 'unseen':
+            markup = types.InlineKeyboardMarkup()
+            markup.add(types.InlineKeyboardButton(text='Записаться', callback_data='confirm_on_event'))
+            text = f"Вы хотите записаться на:\n {i[page]['name']}\n\n"
+            f"Целевая аудитория: {i[page]['targetGroup']['name']}\n\n"
+            f"Тип курса: {i[page]['type']['name']}\n\n"
+            f"Почта: {i[page]['speakerEmail']}\n\n"
+            f"Телефон для связи: {i[page]['speakerPhone']}\n\n"
+            f"Начало: {i[page]['begin'][3]}:{i[page]['begin'][4]}  Дата:{i[page]['begin'][2]}.{i[page]['begin'][1]}.{i[page]['begin'][0]}"
+            "\n‼️Внимание, при записи на курс, вы даёте согласие на обработку персональных данных, которые были записаны при регистрации"
+            await callback.message.edit_text(text=text, reply_markup=markup)
 
     # Обработка кнопок - вперед и назад
         elif 'pagination' in req[0]:
-
             # Расспарсим полученный JSON
             json_string = json.loads(req[0])
             count = json_string['CountPage']
@@ -142,11 +161,17 @@ async def pagination_func(callback: types.CallbackQuery, n=-1):
                                                  f"Начало: {i[page]['begin'][3]}:{i[page]['begin'][4]}  Дата:{i[page]['begin'][2]}.{i[page]['begin'][1]}.{i[page]['begin'][0]}",
                                                   )
                                                   ,reply_markup=markup)
-    # except Exception as e:
-    #     print(e)
+    except Exception as e:
+        print(e)
 
 
+@dp.callback_query_handler(lambda call: call.data.startswith('confirm_on_events'))
+async def confirm_on_event_func(callback: types.CallbackQuery):
+    try:
+        await callback.message.answer("Вы записаны!")
 
+    except Exception as e:
+        print(e)
 
 # Сделай обработку ошибок и исключений try-except для каждой функции и условия
 
