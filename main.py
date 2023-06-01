@@ -18,6 +18,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage #Хранилище
 
 dp = bot.dp
 
+
 class UserState(StatesGroup):
     name = State()
     surname = State()
