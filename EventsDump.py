@@ -13,7 +13,12 @@ dp = bot.dp
 
 @dp.callback_query_handler(text_contains='confirm_on_event')
 async def confirm_on_event_func(callback: types.CallbackQuery):
-    await callback.message.answer("Вы записаны!")
+    try:
+        await callback.message.delete()
+        await callback.message.answer("Вы записаны!")
+    except Exception as e:
+        print(e)
+
 @dp.message_handler(commands=['events'])
 async def get_course(message: types.Message, state: FSMContext):
     try:
@@ -146,15 +151,3 @@ async def pagination_func(callback: types.CallbackQuery, n=-1):
                                                   ,reply_markup=markup)
     except Exception as e:
         print(e)
-
-
-@dp.callback_query_handler(lambda call: call.data.startswith('confirm_on_events'))
-async def confirm_on_event_func(callback: types.CallbackQuery):
-    try:
-        await callback.message.answer("Вы записаны!")
-
-    except Exception as e:
-        print(e)
-
-# Сделай обработку ошибок и исключений try-except для каждой функции и условия
-
