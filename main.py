@@ -3,6 +3,9 @@ import asyncio
 import re
 import datetime
 
+from typing import Optional
+from typing import List
+
 import xlsxwriter
 import logging
 import navigation
@@ -20,20 +23,23 @@ dp = bot.dp
 
 
 class UserState(StatesGroup):
-    name = State()
-    surname = State()
-    email = State()
-    number = State()
-    age = State()
-    category = State()
-    time = State()
-    user_status = State()
+    name: str = State()
+    surname: str = State()
+    email: str = State()
+    number: int = State()
+    age: int = State()
+    category: str = State()
+    time: str = State()
+    user_status: Optional[str] = State()
+    #selected_cat_courses: List[str] = State()
+
+#user_state = UserState()
+#user_state.selected_cat_courses = ['AWAIT']
 
 @dp.message_handler(commands=['reg']) #Процедура регистрации
 async def user_register(message: types.Message, state: FSMContext):
     await message.answer("Введите ваше имя")
     await UserState.name.set()
-
 
 @dp.message_handler(state=UserState.name)
 async def get_name(message: types.Message, state: FSMContext):
