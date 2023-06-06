@@ -165,7 +165,7 @@ async def process_callback_reg_confirm(callback_query: types.CallbackQuery, stat
                                             '\n\n<b>Например:</b> /help'
                                             , parse_mode='html')
         data = await state.get_data()
-        CreateExcelTable.InsertTable(data)
+        CreateExcelTable.InsertTable_User(data)
         await state.finish()
 
     elif callback_query.data == 'reg_deviation':

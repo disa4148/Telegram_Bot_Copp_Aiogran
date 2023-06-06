@@ -15,9 +15,9 @@ from email.mime.multipart import MIMEMultipart              # Многокомп
 
 
 def send_email(addr_to, msg_subj, msg_text, files):
-    addr_from = "denis.nikolaenko.2004@mail.ru"
-    addr_to = "denis.nikolaenko.2004@mail.ru"
-    password = "4LFBCcUF6rDsT0DvPJaA"
+    addr_from = "koly.bessonov.2004@mail.ru"
+    addr_to = "koly.bessonov.2004@mail.ru"
+    password = "v2QNXtd3TyG1Kb4wmwRE"
 
     msg = MIMEMultipart()
     msg['From'] = addr_from
