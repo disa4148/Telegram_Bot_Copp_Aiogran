@@ -80,8 +80,6 @@ async def get_location(message: types.Message):
 
     await message.answer_location(latitude=55.34761140195859, longitude=86.00465968757983, reply_markup=menu)
 
-
-
 @dp.callback_query_handler(filters.Text(startswith="menu_")) #Обработка обратной связи кнопок меню
 async def sort_menu(callback: types.CallbackQuery):
     action = callback.data.split("_")[1]

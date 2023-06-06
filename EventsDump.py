@@ -7,35 +7,35 @@ import asyncio
 from aiogram.dispatcher import FSMContext
 from aiogram import Bot, Dispatcher, types, filters
 from aiogram.dispatcher.filters.state import StatesGroup, State
+from main import UserState
 
 dp = bot.dp
 
-class Form(StatesGroup):
+class EventState(StatesGroup):
     collection: [] = State()
 
 
 @dp.callback_query_handler(text_contains='confirm_on_event')
 async def confirm_on_event_func(callback: types.CallbackQuery, state: FSMContext):
-    try:
-        with open('events.json', encoding='utf-8') as f:
-            data = f.read()
-            categories = json.loads(data)
-            cat = 0
-            for i in categories['content']:
-                if i['begin']:
-                    cat = 1 + cat
+    #try:
 
-        i = categories['content']
 
-        req = callback.data.split('_')
         await callback.message.delete()
         data = await state.get_data()
-        CreateExcelTable.InsertTable_Events(data)
+        # data2 = await state.get_state(UserState.all_states)
+        # print(data2)
+        #
+        # data = {}
+        # data.update(data1)
+        # for other_state in data2:
+        #     state_data = state.get_data(other_state)
+        #     data.update(state_data)
 
+        CreateExcelTable.InsertTable_Events(data)
         await callback.message.answer("Вы записаны!")
 
-    except Exception as e:
-            print(e)
+    #except Exception as e:
+            #print(e)
 
 
 @dp.message_handler(commands=['events'])
@@ -74,7 +74,7 @@ async def get_course(message: types.Message, state: FSMContext):
 
 @dp.callback_query_handler(lambda call: True)
 async def pagination_func(callback: types.CallbackQuery, state: FSMContext, n=-1):
-    #try:
+    try:
         with open('events.json', encoding='utf-8') as f:
             data = f.read()
             categories = json.loads(data)
@@ -96,11 +96,18 @@ async def pagination_func(callback: types.CallbackQuery, state: FSMContext, n=-1
 
             begin_time = f"{i[page]['begin'][3]}:{i[page]['begin'][4]}"
             begin_data = f"{i[page]['begin'][2]}.{i[page]['begin'][1]}.{i[page]['begin'][0]}"
-            #collection = [i[page['name']], i[page]['targetGroup']['name'], i[page]['type']['name'], i[page]['speakerEmail'],
-            #        i[page]['speakerPhone'], begin_time, begin_data]
 
-            await state.update_data(collection=[i[page['name']], i[page]['targetGroup']['name'], i[page]['type']['name'], i[page]['speakerEmail'],i[page]['speakerPhone'], begin_time, begin_data])
 
+
+            await state.update_data(collection={
+                                    'name': [i[page]['name']],
+                                    'targetGroup': [i[page]['targetGroup']['name']],
+                                    'type': [i[page]['type']['name']],
+                                    'speakerEmail': [i[page]['speakerEmail']],
+                                    'speakerPhone': [i[page]['speakerPhone']],
+                                    'begin_time': [begin_time],
+                                    'begin_data': [begin_data]
+                                })
             markup = types.InlineKeyboardMarkup()
             markup.add(types.InlineKeyboardButton(text='Записаться', callback_data='confirm_on_event'))
             await callback.message.edit_media(
@@ -178,5 +185,5 @@ async def pagination_func(callback: types.CallbackQuery, state: FSMContext, n=-1
                                                            f"Начало: {i[page]['begin'][3]}:{i[page]['begin'][4]}  Дата:{i[page]['begin'][2]}.{i[page]['begin'][1]}.{i[page]['begin'][0]}",
                                                    )
                     , reply_markup=markup)
-    #except Exception as e:
-        #print(e)
+    except Exception as e:
+        print(e)

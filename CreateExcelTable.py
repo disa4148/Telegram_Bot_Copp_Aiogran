@@ -9,14 +9,18 @@ file_path_event = "CollectedData/Collected_info_events.xlsx"
 
 def InsertTable_Events(data):
     # Создание нового DataFrame с новыми данными
+
+    # Получаем данные из словаря состояния
+    collection = data.get('collection')
+
     new_data = pd.DataFrame({
-        "Название мероприятия": [data[0]],
-        "Целевая аудитория": [data[1]],
-        "Типо курса": [data[2]],
-        "Почта организатора": [data[3]],
-        "Телефон огранизатора": [data[4]],
-        "Дата проведения": [data[5]],
-        "Начало": [data[6]]
+        "Название мероприятия": collection.get('name'),
+        "Целевая аудитория": collection.get('targetGroup'),
+        "Типо курса":  collection.get('type'),
+        "Почта организатора": collection.get('speakerEmail'),
+        "Телефон огранизатора": collection.get('speakerPhone'),
+        "Дата проведения": collection.get('begin_time'),
+        "Начало": collection.get('begin_data')
     })
     # Чтение существующего файла, если он существует
     try:
