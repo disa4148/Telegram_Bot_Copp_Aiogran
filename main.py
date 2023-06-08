@@ -1,6 +1,6 @@
 import bot
 import asyncio
-import re
+import re, json
 import datetime
 
 from typing import Optional
@@ -31,7 +31,7 @@ class UserState(StatesGroup):
     category: str = State()
     time: str = State()
     user_status: Optional[str] = State()
-    #selected_cat_courses: List[str] = State()
+    selected_cat_courses: List[str] = State()
 
 #user_state = UserState()
 #user_state.selected_cat_courses = ['AWAIT']
@@ -134,16 +134,17 @@ async def process_category(callback_query: types.CallbackQuery, state: FSMContex
 
 @dp.message_handler(state=UserState.age)
 async def get_age(message: types.Message, state: FSMContext):
+    current_time = datetime.datetime.now().strftime("%d.%m.%Y %H:%M")
+
+    await state.update_data(age=message.text)  # Запись значения в age
+    await state.update_data(time=current_time)  # Запись значения в time
+
+    data = await state.get_data()
     builder = types.InlineKeyboardMarkup(inline_keyboard=True, row_width=2)
     builder.add(types.InlineKeyboardButton(text="Да ✅", callback_data='reg_confirm'))
     builder.add(types.InlineKeyboardButton(text="Нет ❌", callback_data='reg_deviation'))
 
-    current_time = datetime.datetime.now().strftime("%d.%m.%Y %H:%M")
 
-    await state.update_data(age=message.text) #Запись значения в age
-    await state.update_data(time=current_time) #Запись значения в time
-
-    data = await state.get_data()
     await message.answer(f"Проверьте, корректно ли заполнены поля?  💬\n\n"
                          f"Имя: <b>{data['name']}</b>\n"
                          f"Фамилия: <b>{data['surname']}</b>\n"
@@ -155,6 +156,7 @@ async def get_age(message: types.Message, state: FSMContext):
                          reply_markup=builder
                          )
     #await state.finish
+
     await UserState.user_status.set()
 
 @dp.callback_query_handler(lambda c: c.data == 'reg_confirm' or c.data == 'reg_deviation', state=UserState.user_status)
@@ -171,7 +173,7 @@ async def process_callback_reg_confirm(callback_query: types.CallbackQuery, stat
                                             '\n\n<b>Например:</b> /help'
                                             , parse_mode='html')
         data = await state.get_data()
-        CreateExcelTable.InsertTable_User(data)
+        CreateExcelTable.Insert_Table(1,data)
         await state.finish()
         #await state.reset_state(with_data=False)
 

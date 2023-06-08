@@ -7,7 +7,6 @@ import asyncio
 from aiogram.dispatcher import FSMContext
 from aiogram import Bot, Dispatcher, types, filters
 from aiogram.dispatcher.filters.state import StatesGroup, State
-from main import UserState
 
 dp = bot.dp
 
@@ -22,16 +21,8 @@ async def confirm_on_event_func(callback: types.CallbackQuery, state: FSMContext
 
         await callback.message.delete()
         data = await state.get_data()
-        # data2 = await state.get_state(UserState.all_states)
-        # print(data2)
-        #
-        # data = {}
-        # data.update(data1)
-        # for other_state in data2:
-        #     state_data = state.get_data(other_state)
-        #     data.update(state_data)
 
-        CreateExcelTable.InsertTable_Events(data)
+        CreateExcelTable.Insert_Table(0,data)
         await callback.message.answer("Вы записаны!")
 
     #except Exception as e:
